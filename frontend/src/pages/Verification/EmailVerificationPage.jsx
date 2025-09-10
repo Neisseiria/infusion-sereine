@@ -1,25 +1,26 @@
-// src/pages/EmailVerificationPage.jsx
-import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function EmailVerificationPage() {
   const { token } = useParams();
   const navigate = useNavigate();
-  const [message, setMessage] = useState('Vérification de votre compte en cours...');
+  const [message, setMessage] = useState("Vérification de votre compte en cours...");
 
   useEffect(() => {
     const verifyToken = async () => {
       try {
-        // On contacte la route backend pour la vérification
-        await axios.get(`${import.meta.env.VITE_API_URL}/api/users/verify/${token}`);
-        // Si l'appel réussit, le backend nous redirigera automatiquement.
-        // On met un message au cas où la redirection automatique échouerait.
-        setMessage('Redirection en cours...');
-        
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_URL}/users/verify?token=${token}`
+        );
+
+        if (res.status === 200) {
+          navigate("/verification-succes");
+        } else {
+          navigate("/verification-echec");
+        }
       } catch (error) {
-        // Si l'appel API lui-même échoue, on redirige vers la page d'échec
-        navigate('/verification-echec');
+        navigate("/verification-echec");
       }
     };
 

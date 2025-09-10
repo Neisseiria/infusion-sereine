@@ -55,12 +55,16 @@ export const register = async (req, res) => {
 // --- Logique de Vérification d'Email ---
 export const verifyEmail = async (req, res) => {
   try {
-    const { token } = req.params;
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const tempUser = await TempUser.findOne({ email: decoded.email, token });
+    const { token } = req.query; // ✅ query au lieu de params
+    if (!token) {
+      return res.status(400).json({ msg: "Token manquant." });
+    }
 
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    const tempUser = await TempUser.findOne({ email: decoded.email, token });
     if (!tempUser) {
-      return res.redirect(`${process.env.CLIENT_URL}/verification-echec`);
+      return res.status(400).json({ msg: "Lien invalide ou déjà utilisé." });
     }
 
     const newUser = new User({
@@ -72,14 +76,13 @@ export const verifyEmail = async (req, res) => {
     await newUser.save();
 
     await TempUser.deleteOne({ email: tempUser.email });
-    res.redirect(`${process.env.CLIENT_URL}/verification-succes`);
 
+    res.status(200).json({ msg: "Compte vérifié avec succès !" });
   } catch (error) {
     console.error("ERREUR DE VÉRIFICATION JWT:", error);
-    res.redirect(`${process.env.CLIENT_URL}/verification-echec`);
+    res.status(400).json({ msg: "Lien invalide ou expiré." });
   }
 };
-
 // --- Logique de Connexion  ---
 export const login = async (req, res) => {
   try {
@@ -101,7 +104,7 @@ export const login = async (req, res) => {
     const token = jwt.sign(
         { id: user._id }, 
         process.env.JWT_SECRET, 
-        { expiresIn: '7d' } // Une semaine, comme le formateur
+        { expiresIn: '7d' }
     );
     
     // On envoie le token dans un cookie httpOnly sécurisé
@@ -109,7 +112,7 @@ export const login = async (req, res) => {
       httpOnly: true, // Le cookie n'est pas accessible par le JavaScript du client
       secure: process.env.NODE_ENV === "production", // En production, n'envoyer qu'en HTTPS
       sameSite: "strict", // Protection contre les attaques CSRF
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 jours
+      maxAge: 7 * 24 * 60 * 60 * 1000, 
     });
 
     // On renvoie les infos de l'utilisateur (sans le token, qui est maintenant dans le cookie)
