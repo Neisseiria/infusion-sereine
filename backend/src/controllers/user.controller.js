@@ -55,7 +55,7 @@ export const register = async (req, res) => {
 // --- Logique de Vérification d'Email ---
 export const verifyEmail = async (req, res) => {
   try {
-    const { token } = req.query; // ✅ query au lieu de params
+    const { token } = req.query; // 
     if (!token) {
       return res.status(400).json({ msg: "Token manquant." });
     }
@@ -152,3 +152,4 @@ export const logoutUser = async (req, res) => {
   res.clearCookie("token");
   res.status(200).json({ message: "Déconnexion réussie" });
 };
+ 
