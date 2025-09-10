@@ -5,7 +5,7 @@ function PrivacyPolicyPage() {
     <div className="w-full bg-lavande p-8">
       <div className="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-md">
         <h1 className="text-4xl font-title text-texte-sombre mb-6">Politique de Confidentialité</h1>
-        <em className="text-gray-500">Dernière mise à jour le : [Date du jour]</em>
+        <em className="text-gray-500">Dernière mise à jour le : 10/09/2025</em>
 
         <div className="space-y-4 text-gray-700 mt-6">
           <p>

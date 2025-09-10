@@ -10,7 +10,7 @@ export default {
         'pervenche': '#CCCCFF',
         'lavande': '#E6E6FA',
         'texte-sombre': '#2D3748',
-        'accent': '#A78BFA',
+        'accent': '#7C3AED',
       },
       fontFamily: {
         'title': ['Cormorant Garamond', 'serif'],
