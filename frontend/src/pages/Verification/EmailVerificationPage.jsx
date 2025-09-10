@@ -11,16 +11,20 @@ function EmailVerificationPage() {
     const verifyToken = async () => {
       try {
         const res = await axios.get(
-          `${import.meta.env.VITE_API_URL}/users/verify?token=${token}`
+          `${import.meta.env.VITE_API_URL}/users/verify?token=${token}`,
+          { withCredentials: true } // ✅ pour envoyer cookies si jamais login direct plus tard
         );
 
         if (res.status === 200) {
-          navigate("/verification-succes");
+          setMessage("✅ Compte vérifié avec succès !");
+          setTimeout(() => navigate("/verification-succes"), 1500);
         } else {
-          navigate("/verification-echec");
+          setMessage("❌ Erreur de vérification.");
+          setTimeout(() => navigate("/verification-echec"), 1500);
         }
       } catch (error) {
-        navigate("/verification-echec");
+        setMessage("❌ Erreur de vérification.");
+        setTimeout(() => navigate("/verification-echec"), 1500);
       }
     };
 
