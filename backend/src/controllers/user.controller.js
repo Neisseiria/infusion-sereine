@@ -1,6 +1,6 @@
 // backend/controllers/user.controller.js
 
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/user.model.js";
 import TempUser from "../models/tempuser.model.js";
