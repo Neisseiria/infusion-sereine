@@ -6,7 +6,7 @@
   # La commande pour construire le site
   command = "npm run build"
   # Le site final à publier se trouvera dans le dossier frontend/dist
-  publish = "frontend/dist"
+  publish = "dist"
 
 # Notre règle de redirection pour les applications React
 [[redirects]]
