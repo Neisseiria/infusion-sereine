@@ -6,7 +6,7 @@ import User from "../models/user.model.js";
 import TempUser from "../models/tempuser.model.js";
 import { sendVerificationEmail } from "../utils/email.js";
 
-// --- Logique d'Inscription (ne change pas) ---
+// --- Logique d'Inscription ---
 export const register = async (req, res) => {
   try {
     const { firstName, lastName, email, password } = req.body;
@@ -152,4 +152,3 @@ export const logoutUser = async (req, res) => {
   res.clearCookie("token");
   res.status(200).json({ message: "Déconnexion réussie" });
 };
- 
