@@ -1,7 +1,7 @@
 // src/api/infusionService.js
 import axios from 'axios';
 
-const API_URL = `${import.meta.env.VITE_API_URL}/api/infusions/`;
+const API_URL = `${import.meta.env.VITE_API_URL}/infusions/`;
 
 // Fonction pour récupérer toutes les infusions
 const getAllInfusions = () => {
