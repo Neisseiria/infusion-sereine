@@ -54,7 +54,7 @@ function ContactPage() {
             <p className="text-red-500 text-sm">{errors.message?.message}</p>
           </div>
           <div>
-            <button type="submit" disabled={isSubmitting} className="w-full btn-primary">
+            <button type="submit" disabled={isSubmitting} className="btn-primary bg-pervenche py-2 px-5 w-40 mx-auto block rounded-lg transition-colors duration-300 hover:bg-indigo-400 hover:text-white">
               {isSubmitting ? 'Envoi en cours...' : 'Envoyer'}
             </button>
           </div>
