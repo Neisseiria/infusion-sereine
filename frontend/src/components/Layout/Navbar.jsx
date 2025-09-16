@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { FiMenu, FiX } from 'react-icons/fi';
+import { FiMenu, FiX, FiShoppingCart, FiUser, FiLogOut } from 'react-icons/fi';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { useCart } from '../../context/CartContext.jsx';
 
@@ -32,17 +32,17 @@ function Navbar() {
             Contact
           </NavLink>
 
-          {/* Panier */}
+          {/* Panier (icône seulement en desktop) */}
           <NavLink to="/panier" className="hover:text-accent transition-colors relative">
-            Panier
+            <FiShoppingCart size={24} />
             {itemCount > 0 && (
-              <span className="absolute -top-3 -right-4 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+              <span className="absolute -top-3 -right-3 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                 {itemCount}
               </span>
             )}
           </NavLink>
 
-          {/* Auth */}
+          {/* Auth (icône seulement en desktop) */}
           {auth.isAuthenticated ? (
             <>
               <span className="font-semibold">
@@ -53,12 +53,12 @@ function Navbar() {
                 title="Déconnexion"
                 className="hover:text-accent transition-colors"
               >
-                Déconnexion
+                <FiLogOut size={24} />
               </button>
             </>
           ) : (
             <NavLink to="/auth" className="hover:text-accent transition-colors">
-              Connexion
+              <FiUser size={24} />
             </NavLink>
           )}
         </div>
@@ -72,7 +72,7 @@ function Navbar() {
         </button>
       </div>
 
-      {/* Menu Mobile */}
+      {/* Menu Mobile (texte uniquement) */}
       {isOpen && (
         <div className="md:hidden bg-white border-t shadow-md flex flex-col items-center py-6 space-y-6 text-lg text-texte-sombre font-medium">
           <NavLink
@@ -97,7 +97,7 @@ function Navbar() {
             Contact
           </NavLink>
 
-          {/* Panier */}
+          {/* Panier (texte seulement en mobile) */}
           <NavLink
             to="/panier"
             onClick={() => setIsOpen(false)}
@@ -111,7 +111,7 @@ function Navbar() {
             )}
           </NavLink>
 
-          {/* Auth */}
+          {/* Auth (texte seulement en mobile) */}
           {auth.isAuthenticated ? (
             <button
               onClick={() => {
