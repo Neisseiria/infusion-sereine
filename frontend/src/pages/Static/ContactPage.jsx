@@ -77,7 +77,7 @@ function ContactPage() {
             <p className="text-red-500 text-sm">{errors.message?.message}</p>
           </div>
 
-          {/* ✅ Bloc RGPD simplifié */}
+          {/* Bloc RGPD */}
           <div className="flex items-start gap-3">
             <input
               id="rgpd"
