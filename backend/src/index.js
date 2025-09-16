@@ -3,7 +3,9 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import connectDB from "./lib/db.js"; // On importe notre fonction de connexion
+import connectDB from "./lib/db.js";
+import reviewRoutes from "./routes/review.routes.js";
+
 
 // Importer tous nos routeurs
 import infusionsRouter from "./routes/infusions.routes.js";
@@ -30,6 +32,7 @@ app.use('/api/infusions', infusionsRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/contact', contactRouter);
 app.use('/api/orders', orderRouter);
+app.use("/reviews", reviewRoutes);
 
 // Démarrage du Serveur
 app.listen(port, () => {

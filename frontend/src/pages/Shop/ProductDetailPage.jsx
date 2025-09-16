@@ -6,6 +6,9 @@ import infusionService from '../../api/infusionService.js';
 import { useCart } from '../../context/CartContext.jsx';
 import toast from 'react-hot-toast';
 
+// import du composant avis
+import ProductReviews from '../../components/Common/ProductReviews.jsx';
+
 function ProductDetailPage() {
   const { id } = useParams();
   const [infusion, setInfusion] = useState(null);
@@ -24,7 +27,6 @@ function ProductDetailPage() {
   }, [id]);
 
   const handleAddToCart = () => {
-    // Vérifie qu'on a bien les données de l'infusion avant de l'ajouter
     if (infusion) { 
       cart.addToCart(infusion);
       toast.success(`${infusion.nom} a été ajouté au panier !`);
@@ -38,18 +40,23 @@ function ProductDetailPage() {
   return (
     <div className="w-full bg-lavande p-8">
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        {/* Image produit */}
         <div className="bg-white p-8 rounded-lg shadow-lg">
           <img src={infusion.image} alt={infusion.nom} className="w-full h-auto object-cover" />
         </div>
+
+        {/* Infos produit */}
         <div className="space-y-4">
           <h1 className="text-5xl font-title text-texte-sombre">{infusion.nom}</h1>
           <p className="text-gray-700 text-lg">{infusion.description}</p>
+
           <div>
             <h2 className="text-2xl font-title text-accent">Ingrédients</h2>
             <ul className="list-disc list-inside text-gray-600">
               {infusion.ingredients.map((ing, index) => <li key={index}>{ing}</li>)}
             </ul>
           </div>
+
           <div className="text-4xl font-bold text-texte-sombre text-right">
             {infusion.prix.toFixed(2)}€
           </div>
@@ -61,6 +68,11 @@ function ProductDetailPage() {
             Ajouter au Panier
           </button>
         </div>
+      </div>
+
+      {/* Avis clients (on passe l'id du produit) */}
+      <div className="max-w-6xl mx-auto mt-12 bg-white p-6 rounded-lg shadow-md">
+        <ProductReviews productId={infusion._id} />
       </div>
     </div>
   );
