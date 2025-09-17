@@ -128,24 +128,34 @@ export const login = async (req, res) => {
 // --- Vérifier l'Utilisateur Actuel ---
 export const currentUser = async (req, res) => {
   try {
+    console.log("currentUser appelé");
+    console.log("Cookie reçu:", req.cookies.token);
+    
     const token = req.cookies.token;
     if (!token) {
-      return res.json(null);
+      console.log("Pas de token");
+      return res.json({ data: null }); // Format cohérent
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findById(decoded.id).select('-password'); // .select('-password') pour ne jamais renvoyer le hash
+    console.log("Token décodé:", decoded);
+    
+    const user = await User.findById(decoded.id).select('-password');
+    console.log("Utilisateur trouvé:", user);
 
     if (!user) {
-      return res.json(null);
+      console.log("Utilisateur non trouvé");
+      return res.json({ data: null });
     }
-    res.status(200).json(user);
+    
+    console.log("currentUser succès");
+    res.status(200).json({ data: user }); // Wrapped dans { data: ... }
 
   } catch (error) {
-    res.json(null);
+    console.error("Erreur currentUser:", error);
+    res.json({ data: null });
   }
 };
-
 // --- Déconnexion ---
 export const logoutUser = async (req, res) => {
   // On efface le cookie
