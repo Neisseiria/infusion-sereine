@@ -89,7 +89,7 @@ function ContactPage() {
             <label htmlFor="rgpd" className="text-sm text-gray-700 leading-5">
               En soumettant ce formulaire, j'accepte que les informations saisies soient exploitées
               dans le cadre de ma demande. Pour plus d'infos, consultez la{' '}
-              <NavLink to="/PrivacyPolicyPage" className="underline text-accent hover:opacity-80">
+              <NavLink to="/politique-de-confidentialite" target="_blank" className="underline text-accent hover:opacity-80">
                 Politique de confidentialité
               </NavLink>.
             </label>
