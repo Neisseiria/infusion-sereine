@@ -32,7 +32,7 @@ app.use('/api/infusions', infusionsRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/contact', contactRouter);
 app.use('/api/orders', orderRouter);
-app.use("/reviews", reviewRoutes);
+app.use('/api/reviews', reviewRoutes);
 
 // Démarrage du Serveur
 app.listen(port, () => {
