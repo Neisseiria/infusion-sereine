@@ -12,18 +12,15 @@ function EmailVerificationPage() {
       try {
         const res = await axios.get(
           `${import.meta.env.VITE_API_URL}/users/verify?token=${token}`,
-          { withCredentials: true } // ✅ pour envoyer cookies si jamais login direct plus tard
+          { withCredentials: true } // pour envoyer cookies si jamais login direct plus tard
         );
 
         if (res.status === 200) {
-          setMessage("✅ Compte vérifié avec succès !");
           setTimeout(() => navigate("/verification-succes"), 1500);
         } else {
-          setMessage("❌ Erreur de vérification.");
           setTimeout(() => navigate("/verification-echec"), 1500);
         }
       } catch (error) {
-        setMessage("❌ Erreur de vérification.");
         setTimeout(() => navigate("/verification-echec"), 1500);
       }
     };

@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 import { NavLink } from 'react-router-dom';
 import contactService from '../../api/contactService.js';
 
-// ✅ Schéma de validation avec RGPD obligatoire
+// Schéma de validation avec RGPD obligatoire
 const contactSchema = Yup.object().shape({
   name: Yup.string().required('Le nom est obligatoire'),
   email: Yup.string().email("Format d'email invalide").required("L'email est obligatoire"),
