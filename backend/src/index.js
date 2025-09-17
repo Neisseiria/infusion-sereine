@@ -20,9 +20,22 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // Configuration des Middlewares
+// CORS avec gestion multi-origines et credentials
+const allowedOrigins = (process.env.CLIENT_URLS || process.env.CLIENT_URL || "")
+  .split(",")
+  .map((o) => o.trim())
+  .filter(Boolean);
+
 app.use(cors({
-  origin: process.env.CLIENT_URL,
-  credentials: true
+  origin: (origin, callback) => {
+    // Autoriser les requêtes sans origin (ex: Postman) ou si origin figure dans la liste
+    if (!origin || allowedOrigins.length === 0 || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error(`Origin non autorisée par CORS: ${origin}`));
+    }
+  },
+  credentials: true,
 }));
 app.use(express.json());
 app.use(cookieParser());

@@ -108,12 +108,15 @@ export const login = async (req, res) => {
     );
     
     // On envoie le token dans un cookie httpOnly sécurisé
-    res.cookie("token", token, {
-      httpOnly: true, // Le cookie n'est pas accessible par le JavaScript du client
-      secure: process.env.NODE_ENV === "production", // En production, n'envoyer qu'en HTTPS
-      sameSite: "strict", // Protection contre les attaques CSRF
-      maxAge: 7 * 24 * 60 * 60 * 1000, 
-    });
+    const isProduction = process.env.NODE_ENV === "production";
+    const cookieOptions = {
+      httpOnly: true,
+      secure: isProduction, // Requis pour SameSite=None en prod (HTTPS)
+      sameSite: isProduction ? "None" : "Lax", // Cross-site en prod, dev plus permissif
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    };
+
+    res.cookie("token", token, cookieOptions);
 
     // On renvoie les infos de l'utilisateur (sans le token, qui est maintenant dans le cookie)
     res.status(200).json({
