@@ -199,17 +199,17 @@ function ProductReviews({ productId }) {
                 className="bg-white border border-pervenche/30 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow hover:border-accent/30"
               >
                 <div className="flex items-start justify-between mb-4">
-                  <div className="flex items-center space-x-4">
-                    <div className="w-12 h-12 bg-gradient-to-r from-pervenche to-accent rounded-full flex items-center justify-center text-white font-bold text-lg">
+                  <div className="flex items-center space-x-4 min-w-0">
+                    <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-r from-pervenche to-accent rounded-full flex items-center justify-center text-white font-bold text-base md:text-lg">
                       {(review.author?.firstName || review.author?.name || "A")[0].toUpperCase()}
                     </div>
-                    <div>
+                    <div className="min-w-0">
                       <p className="font-semibold text-texte-sombre">
                         {review.author?.firstName || review.author?.name || "Client anonyme"}
                       </p>
-                      <div className="flex items-center space-x-2 mt-1">
+                      <div className="flex flex-wrap items-center gap-2 mt-1">
                         {renderStars(review.rating)}
-                        <span className="text-sm text-texte-sombre/60">
+                        <span className="text-xs md:text-sm text-texte-sombre/60 whitespace-nowrap">
                           {new Date(review.createdAt).toLocaleDateString('fr-FR', {
                             year: 'numeric',
                             month: 'long',
@@ -221,7 +221,7 @@ function ProductReviews({ productId }) {
                   </div>
                 </div>
                 
-                <p className="text-texte-sombre/80 leading-relaxed">
+                <p className="text-texte-sombre/80 leading-relaxed break-words">
                   {review.comment}
                 </p>
               </div>
