@@ -13,12 +13,13 @@ const authMiddleware = (req, res, next) => {
     // On vérifie le token avec notre clé secrète
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     
-    // On attache l'ID de l'utilisateur à la requête pour les prochains contrôleurs
-    req.user = { id: decoded.id };
+    // ✅ Correction : utiliser _id pour être cohérent avec MongoDB/Mongoose
+    req.user = { _id: decoded.id };
     
     // Tout est bon, on laisse passer la requête
     next();
   } catch (err) {
+    console.error('Erreur de vérification du token:', err);
     return res.status(401).json({ msg: 'Token invalide.' });
   }
 };
