@@ -25,8 +25,13 @@ export const addReview = async (req, res) => {
       comment,
     });
 
-    console.log("Avis créé avec succès:", review);
-    res.status(201).json(review);
+    // Recharger avec l'auteur peuplé pour retourner le prénom directement
+    const populated = await Review.findById(review._id)
+      .populate("author", "firstName lastName")
+      .exec();
+
+    console.log("Avis créé avec succès:", populated);
+    res.status(201).json(populated);
   } catch (error) {
     console.error(" Erreur dans addReview:", error);
     console.error("Stack trace:", error.stack);
@@ -42,7 +47,7 @@ export const getReviews = async (req, res) => {
     console.log("Récupération des avis pour le produit:", productId);
     
     const reviews = await Review.find({ product: productId })
-      .populate("author", "name") // affiche juste le nom de l'auteur
+      .populate("author", "firstName lastName")
       .sort({ createdAt: -1 });
 
     console.log(` ${reviews.length} avis trouvés pour le produit ${productId}`);

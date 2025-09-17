@@ -201,11 +201,11 @@ function ProductReviews({ productId }) {
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center space-x-4">
                     <div className="w-12 h-12 bg-gradient-to-r from-pervenche to-accent rounded-full flex items-center justify-center text-white font-bold text-lg">
-                      {(review.author?.name || "A")[0].toUpperCase()}
+                      {(review.author?.firstName || review.author?.name || "A")[0].toUpperCase()}
                     </div>
                     <div>
                       <p className="font-semibold text-texte-sombre">
-                        {review.author?.name || "Client anonyme"}
+                        {review.author?.firstName || review.author?.name || "Client anonyme"}
                       </p>
                       <div className="flex items-center space-x-2 mt-1">
                         {renderStars(review.rating)}

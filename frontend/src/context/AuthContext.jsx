@@ -18,7 +18,8 @@ export const AuthProvider = ({ children }) => {
     const checkLoggedIn = async () => {
       try {
         const response = await authService.getCurrentUser();
-        setUser(response.data); // Le backend renvoie les infos de l'user ou null
+        // Le backend renvoie { data: user | null }
+        setUser(response?.data?.data ?? null);
       } catch (error) {
         console.error("Non connecté", error);
         setUser(null);
