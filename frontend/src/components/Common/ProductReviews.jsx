@@ -229,7 +229,6 @@ function ProductReviews({ productId }) {
           </div>
         ) : (
           <div className="text-center py-12">
-            <div className="text-6xl mb-4">📝</div>
             <h4 className="text-xl font-semibold font-title text-texte-sombre mb-2">
               Aucun avis pour l'instant
             </h4>
