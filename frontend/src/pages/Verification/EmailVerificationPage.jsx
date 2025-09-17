@@ -16,11 +16,14 @@ function EmailVerificationPage() {
         );
 
         if (res.status === 200) {
+          setMessage("Compte vérifié avec succès !");
           setTimeout(() => navigate("/verification-succes"), 1500);
         } else {
+          setMessage("Erreur de vérification.");
           setTimeout(() => navigate("/verification-echec"), 1500);
         }
       } catch (error) {
+        setMessage("Erreur de vérification.");
         setTimeout(() => navigate("/verification-echec"), 1500);
       }
     };
