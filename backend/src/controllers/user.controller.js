@@ -62,6 +62,13 @@ export const verifyEmail = async (req, res) => {
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
+    // Idempotence: si déjà vérifié, renvoyer un succès
+    const existingUser = await User.findOne({ email: decoded.email });
+    if (existingUser) {
+      return res.status(200).json({ msg: "Compte déjà vérifié." });
+    }
+
+    // Rechercher le compte temporaire correspondant
     const tempUser = await TempUser.findOne({ email: decoded.email, token });
     if (!tempUser) {
       return res.status(400).json({ msg: "Lien invalide ou déjà utilisé." });

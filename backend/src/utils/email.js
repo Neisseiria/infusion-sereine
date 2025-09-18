@@ -10,7 +10,9 @@ const transporter = nodemailer.createTransport({
 });
 
 export const sendVerificationEmail = (user, token) => {
-  const url = `${process.env.CLIENT_URL}/verify-email/${token}`;
+  const rawOrigin = process.env.CLIENT_URLS || process.env.CLIENT_URL || '';
+  const firstOrigin = rawOrigin.split(',')[0]?.trim().replace(/\/$/, '');
+  const url = `${firstOrigin}/verify-email/${token}`;
 
   const mailOptions = {
     from: `"L'Infusion Sereine" <${process.env.EMAIL_USER}>`,
