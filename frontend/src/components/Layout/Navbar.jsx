@@ -12,6 +12,7 @@ function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
+    <>
     <nav className="bg-white shadow-md fixed top-0 left-0 w-full z-50">
       <div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
         
@@ -150,7 +151,7 @@ function Navbar() {
         </div>
       </Link>
     )}
-  </div>
+    </>
   );
 }
 
