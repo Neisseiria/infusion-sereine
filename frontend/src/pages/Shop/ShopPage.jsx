@@ -1,12 +1,13 @@
 // src/pages/ShopPage.jsx
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import infusionService from '../../api/infusionService.js';
 import InfusionCard from '../../components/Common/InfusionCard.jsx';
 
 function ShopPage() {
 
   const [infusions, setInfusions] = useState([]);
+  const [sortBy, setSortBy] = useState(''); // '', 'name-asc', 'name-desc', 'price-asc', 'price-desc'
 
   useEffect(() => {
     const fetchInfusions = async () => {
@@ -23,6 +24,22 @@ function ShopPage() {
 
   }, []);
 
+  const sortedInfusions = useMemo(() => {
+    const copy = [...infusions];
+    switch (sortBy) {
+      case 'name-asc':
+        return copy.sort((a, b) => a.nom.localeCompare(b.nom, 'fr', { sensitivity: 'base' }));
+      case 'name-desc':
+        return copy.sort((a, b) => b.nom.localeCompare(a.nom, 'fr', { sensitivity: 'base' }));
+      case 'price-asc':
+        return copy.sort((a, b) => (a.prix || 0) - (b.prix || 0));
+      case 'price-desc':
+        return copy.sort((a, b) => (b.prix || 0) - (a.prix || 0));
+      default:
+        return copy;
+    }
+  }, [infusions, sortBy]);
+
   // --- Rendu JSX ---
   return (
     <div className="bg-lavande min-h-screen p-8 font-sans w-full">
@@ -31,10 +48,32 @@ function ShopPage() {
           Notre Collection
         </h1>
 
+        {/* Barre d'actions */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+          <div className="text-texte-sombre/80">
+            {infusions.length} produits
+          </div>
+          <div className="flex items-center gap-3">
+            <label htmlFor="sort" className="text-texte-sombre/80">Trier par</label>
+            <select
+              id="sort"
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              className="border-2 border-pervenche/40 rounded-lg bg-white px-3 py-2 focus:outline-none focus:border-accent"
+            >
+              <option value="">Par défaut</option>
+              <option value="name-asc">Nom A → Z</option>
+              <option value="name-desc">Nom Z → A</option>
+              <option value="price-asc">Prix croissant</option>
+              <option value="price-desc">Prix décroissant</option>
+            </select>
+          </div>
+        </div>
+
         {/* Grille d'affichage des produits */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {infusions.length > 0 ? (
-            infusions.map((infusion) => (
+          {sortedInfusions.length > 0 ? (
+            sortedInfusions.map((infusion) => (
               <InfusionCard key={infusion._id} infusion={infusion} />
             ))
           ) : (
