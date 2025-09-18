@@ -97,7 +97,7 @@ function AuthPage() {
           </div>
           <div>
             <label htmlFor="password">Mot de passe</label>
-            <input type="password" {...register("password")} className="mt-1 w-full input-style" />
+            <input type="password" autoComplete="current-password" {...register("password")} className="mt-1 w-full input-style" />
             <p className="text-red-500 text-sm">{errors.password?.message}</p>
           </div>
 

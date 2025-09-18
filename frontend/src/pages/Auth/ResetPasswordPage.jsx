@@ -36,12 +36,12 @@ function ResetPasswordPage() {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
             <label htmlFor="password">Nouveau mot de passe</label>
-            <input type="password" {...register('password')} className="mt-1 w-full input-style" />
+            <input type="password" autoComplete="new-password" {...register('password')} className="mt-1 w-full input-style" />
             <p className="text-red-500 text-sm">{errors.password?.message}</p>
           </div>
           <div>
             <label htmlFor="confirm">Confirmer le mot de passe</label>
-            <input type="password" {...register('confirm')} className="mt-1 w-full input-style" />
+            <input type="password" autoComplete="new-password" {...register('confirm')} className="mt-1 w-full input-style" />
             <p className="text-red-500 text-sm">{errors.confirm?.message}</p>
           </div>
           <button type="submit" disabled={isSubmitting} className="w-full bg-accent text-white font-bold py-3 px-6 rounded-lg text-lg hover:bg-opacity-80 transition-all shadow-lg disabled:bg-gray-400">

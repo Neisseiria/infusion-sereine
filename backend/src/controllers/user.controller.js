@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/user.model.js";
 import TempUser from "../models/tempuser.model.js";
-import { sendVerificationEmail } from "../utils/email.js";
+import { sendVerificationEmail, sendPasswordResetEmail } from "../utils/email.js";
 import crypto from "crypto";
 
 // --- Logique d'Inscription ---
