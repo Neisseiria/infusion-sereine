@@ -26,9 +26,8 @@ const allowedOrigins = (process.env.CLIENT_URLS || process.env.CLIENT_URL || "")
   .map((o) => o.trim())
   .filter(Boolean);
 
-app.use(cors({
+const corsOptions = {
   origin: (origin, callback) => {
-    // Autoriser les requêtes sans origin (ex: Postman) ou si origin figure dans la liste
     if (!origin || allowedOrigins.length === 0 || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
@@ -36,7 +35,13 @@ app.use(cors({
     }
   },
   credentials: true,
-}));
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
+
+app.use(cors(corsOptions));
+// Gérer explicitement les préflight OPTIONS pour toutes les routes
+app.options('*', cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 
