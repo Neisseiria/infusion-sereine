@@ -134,6 +134,23 @@ function Navbar() {
         </div>
       )}
     </nav>
+
+    {/* Pastille panier flottante */}
+    {itemCount > 0 && (
+      <Link
+        to="/panier"
+        className="fixed bottom-6 right-6 z-50 bg-accent text-white rounded-full p-4 shadow-lg hover:bg-accent/90 transition-all transform hover:scale-110"
+        aria-label={`Panier avec ${itemCount} article${itemCount > 1 ? 's' : ''}`}
+      >
+        <div className="relative">
+          <FiShoppingCart size={24} />
+          <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold">
+            {itemCount}
+          </span>
+        </div>
+      </Link>
+    )}
+  </div>
   );
 }
 
