@@ -106,6 +106,17 @@ function AuthPage() {
           </button>
         </form>
 
+        {isLoginMode && (
+          <p className="mt-4 text-center text-sm">
+            <button
+              onClick={() => navigate('/mot-de-passe-oublie')}
+              className="font-semibold text-accent hover:underline"
+            >
+              Mot de passe oublié ?
+            </button>
+          </p>
+        )}
+
         <p className="mt-6 text-center text-sm">
           {isLoginMode ? "Pas encore de compte ?" : "Déjà un compte ?"}
           <button onClick={switchModeHandler} className="ml-1 font-semibold text-accent hover:underline">

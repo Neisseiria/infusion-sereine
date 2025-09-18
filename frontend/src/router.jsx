@@ -17,6 +17,8 @@ import OrderConfirmationPage from "./pages/Checkout/OrderConfirmationPage.jsx";
 import EmailVerificationPage from "./pages/Verification/EmailVerificationPage.jsx";
 import VerificationSuccessPage from "./pages/Verification/VerificationSuccessPage.jsx";
 import VerificationFailurePage from "./pages/Verification/VerificationFailurePage.jsx";
+import ForgotPasswordPage from "./pages/Auth/ForgotPasswordPage.jsx";
+import ResetPasswordPage from "./pages/Auth/ResetPasswordPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +39,8 @@ const router = createBrowserRouter([
       { path: "verify-email/:token", element: <EmailVerificationPage /> },
       { path: "verification-succes", element: <VerificationSuccessPage /> },
       { path: "verification-echec", element: <VerificationFailurePage /> },
+      { path: "mot-de-passe-oublie", element: <ForgotPasswordPage /> },
+      { path: "reset-password/:token", element: <ResetPasswordPage /> },
     ],
   },
 ]);

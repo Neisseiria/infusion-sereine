@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import User from "../models/user.model.js";
 import TempUser from "../models/tempuser.model.js";
 import { sendVerificationEmail } from "../utils/email.js";
+import crypto from "crypto";
 
 // --- Logique d'Inscription ---
 export const register = async (req, res) => {
@@ -171,4 +172,66 @@ export const logoutUser = async (req, res) => {
   // On efface le cookie
   res.clearCookie("token");
   res.status(200).json({ message: "Déconnexion réussie" });
+};
+
+// --- Mot de passe oublié: demande ---
+export const forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email) return res.status(400).json({ msg: "Email requis" });
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      // Réponse générique pour ne pas divulguer l'existence d'un compte
+      return res.status(200).json({ msg: "Si un compte existe, un email a été envoyé." });
+    }
+
+    const resetToken = crypto.randomBytes(32).toString("hex");
+    const expires = new Date(Date.now() + 60 * 60 * 1000); // 1h
+
+    user.resetPasswordToken = resetToken;
+    user.resetPasswordExpires = expires;
+    await user.save();
+
+    // Envoyer l'email
+    await sendPasswordResetEmail(user, resetToken);
+
+    return res.status(200).json({ msg: "Si un compte existe, un email a été envoyé." });
+  } catch (error) {
+    console.error("Erreur forgotPassword:", error);
+    return res.status(500).json({ msg: "Erreur interne" });
+  }
+};
+
+// --- Mot de passe oublié: réinitialisation ---
+export const resetPassword = async (req, res) => {
+  try {
+    const { token } = req.params;
+    const { password } = req.body;
+
+    if (!token) return res.status(400).json({ msg: "Token manquant" });
+    if (!password || password.length < 6) {
+      return res.status(400).json({ msg: "Mot de passe invalide (min 6 caractères)" });
+    }
+
+    const user = await User.findOne({
+      resetPasswordToken: token,
+      resetPasswordExpires: { $gt: new Date() },
+    });
+
+    if (!user) {
+      return res.status(400).json({ msg: "Lien invalide ou expiré." });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(password, salt);
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
+    await user.save();
+
+    return res.status(200).json({ msg: "Mot de passe réinitialisé avec succès" });
+  } catch (error) {
+    console.error("Erreur resetPassword:", error);
+    return res.status(500).json({ msg: "Erreur interne" });
+  }
 };

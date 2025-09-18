@@ -29,3 +29,24 @@ export const sendVerificationEmail = (user, token) => {
 
   return transporter.sendMail(mailOptions);
 };
+
+export const sendPasswordResetEmail = (user, token) => {
+  const rawOrigin = process.env.CLIENT_URLS || process.env.CLIENT_URL || '';
+  const firstOrigin = rawOrigin.split(',')[0]?.trim().replace(/\/$/, '');
+  const url = `${firstOrigin}/reset-password/${token}`;
+
+  const mailOptions = {
+    from: `"L'Infusion Sereine" <${process.env.EMAIL_USER}>`,
+    to: user.email,
+    subject: 'Réinitialisez votre mot de passe',
+    html: `
+      <h1>Bonjour ${user.firstName},</h1>
+      <p>Vous avez demandé la réinitialisation de votre mot de passe.</p>
+      <p>Cliquez sur le bouton ci-dessous pour en définir un nouveau (lien valable 1 heure) :</p>
+      <a href="${url}" style="background-color: #A78BFA; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Réinitialiser mon mot de passe</a>
+      <p>Si vous n'êtes pas à l'origine de cette demande, ignorez cet email.</p>
+    `,
+  };
+
+  return transporter.sendMail(mailOptions);
+};
