@@ -8,6 +8,7 @@ import * as Yup from 'yup';
 import toast from 'react-hot-toast';
 import { useAuth } from '../../context/AuthContext';
 import authService from '../../api/authService';
+import { FiEye, FiEyeOff } from 'react-icons/fi';
 
 // On définit les schémas de validation à l'extérieur du composant
 const loginSchema = Yup.object().shape({
@@ -27,6 +28,7 @@ function AuthPage() {
   const auth = useAuth();
   const navigate = useNavigate();
   const [isLoginMode, setIsLoginMode] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
 
   // Configuration de React Hook Form
   const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm({
@@ -97,7 +99,22 @@ function AuthPage() {
           </div>
           <div>
             <label htmlFor="password">Mot de passe</label>
-            <input type="password" autoComplete="current-password" {...register("password")} className="mt-1 w-full input-style" />
+            <div className="mt-1 relative">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                autoComplete="current-password"
+                {...register("password")}
+                className="w-full input-style pr-10"
+              />
+              <button
+                type="button"
+                aria-label={showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
+                onClick={() => setShowPassword((v) => !v)}
+                className="absolute inset-y-0 right-0 px-3 flex items-center text-texte-sombre/70 hover:text-accent"
+              >
+                {showPassword ? <FiEyeOff /> : <FiEye />}
+              </button>
+            </div>
             <p className="text-red-500 text-sm">{errors.password?.message}</p>
           </div>
 
